@@ -274,8 +274,9 @@ namespace ussclientsandbox.Model
         GetStateSwitch,
         SendSwitches,
         SendModeSwitches,
-        EchoRequest,
         SendStateSwitch,
+        EchoRequest,
+        EchoResponse,
         SetModeSwitch,
     }
 }

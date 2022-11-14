@@ -64,8 +64,6 @@ namespace ussclientsandbox.Model
             
         }
 
-        
-
         public string ToXAML()
         {
             //XmlTextWriter xmlTextWriter = new XmlTextWriter("./modes/" + _name + "Message.xml", Encoding.UTF8);
@@ -97,8 +95,6 @@ namespace ussclientsandbox.Model
                 return stringWriter.ToString();
             } 
         }
-
-
 
         public string Name { get => _name; set => _name = value; }
         public bool Invert { get => _invert; set => _invert = value; }

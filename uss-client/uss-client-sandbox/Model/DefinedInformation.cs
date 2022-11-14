@@ -33,5 +33,8 @@ namespace ussclientsandbox.Model
         public const Handshake BridgeCOMHandshake = Handshake.None;
         public const Parity BridgeCOMParity = Parity.None;
         public const StopBits BridgeCOMStopBits = StopBits.One;
+
+        // network communication
+        public const int TCPPort = 5000;
     }
 }
