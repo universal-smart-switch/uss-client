@@ -1,12 +1,6 @@
 ﻿using HashtagChris.DotNetBlueZ;
 using HashtagChris.DotNetBlueZ.Extensions;
-using System;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO.Ports;
-using System.Net.Sockets;
-using System.Text;
-using System.Windows;
 
 namespace ussclientsandbox.Model
 {

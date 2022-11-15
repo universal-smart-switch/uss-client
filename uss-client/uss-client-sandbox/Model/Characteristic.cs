@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ussclientsandbox.Model
+﻿namespace ussclientsandbox.Model
 {
     internal class Characteristic
     {
@@ -20,7 +14,7 @@ namespace ussclientsandbox.Model
             _invert = invert;
         }
 
-        public bool Met { get => _met;}
+        public bool Met { get => _met; }
         public bool Invert { get => _invert; set => _invert = value; }
         public CharacteristicType Type { get => _type; set => _type = value; }
         public int Value { get => _value; set => _value = value; }

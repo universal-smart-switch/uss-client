@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Net;
 using System.Net.Sockets;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using ussclientsandbox.Model;
 
 namespace uss_client_sandbox.Model
 {
     public static class NetworkManager
     {
+        #region property
         private static TcpClient client;
         private static NetworkStream stream;
         private static int port = DefinedInformation.TCPPort;
@@ -18,37 +14,55 @@ namespace uss_client_sandbox.Model
         private static List<byte> toSend = new List<byte>();
         private static bool dataToRead = false;
         private static bool dataToSend = false;
-        private static string serverName = "";
+        private static bool bridgeFound = false;
+        private static IPAddress bridgeAdress;
+        #endregion
 
-
+        #region method
         public static void Connect(CancellationTokenSource ct)
         {
             try
             {
-                // Prefer a using declaration to ensure the instance is Disposed later.
-                client = new TcpClient(serverName, port);
+                Search();
 
-                // Get a client stream for reading and writing.
-                stream = client.GetStream();
+                if (bridgeFound)
+                {
+                    // Prefer a using declaration to ensure the instance is Disposed later.
+                    client = new TcpClient(DefinedInformation.BridgeHostName, port);
 
-                ThreadPool.QueueUserWorkItem(new WaitCallback(NetworkThread), ct.Token);
+                    // Get a client stream for reading and writing.
+                    stream = client.GetStream();
+
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(NetworkThread), ct.Token);
+                }
             }
-            catch (ArgumentNullException e)
+            catch (Exception e)
             {
-                Console.WriteLine("ArgumentNullException: {0}", e);
-            }
-            catch (SocketException e)
-            {
-                Console.WriteLine("SocketException: {0}", e);
+                Console.WriteLine("[NM]: ({0}) {1}", e.GetType(), e.Message);
             }
         }
-
         public static void Send(byte[] data)
         {
             toSend.AddRange(data);
             dataToSend = true;
         }
+        public static void Search()
+        {
+            try
+            {
+                IPAddress[] addresslist = Dns.GetHostAddresses(DefinedInformation.BridgeHostName);
+                bridgeAdress = new IPAddress(addresslist[0].GetAddressBytes());
+                bridgeFound = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("[NM]: {0}", e.Message);
+                bridgeFound = false;
+            }
+        }
+        #endregion
 
+        #region thread
         public static void NetworkThread(Object obj)
         {
             CancellationToken token = (CancellationToken)obj;   // get cancellationtoken
@@ -68,7 +82,7 @@ namespace uss_client_sandbox.Model
                         int sameNumMin = 8;
                         while (stream.DataAvailable)
                         {
-                            if(sameNum < sameNumMin)
+                            if (sameNum < sameNumMin)
                             {
                                 byte rec = (byte)stream.ReadByte();
                                 if (complete.Count >= sameNumMin)
@@ -101,19 +115,23 @@ namespace uss_client_sandbox.Model
                         toSend.Clear();
                         dataToSend = false;
                     }
-                    
+
                 }
-                
-            }
-            catch (Exception)
-            {
 
             }
-            
+            catch (Exception e)
+            {
+                Console.WriteLine("[NM]: {0}", e.Message);
+            }
+
         }
-        public static string ServerName { get => serverName; set => serverName = value; }
+        #endregion
+
+        #region field
         public static bool DataToRead { get => dataToRead; set => dataToRead = value; }
-        public static List<byte> ReceivedData { get => received;}
+        public static List<byte> ReceivedData { get => received; }
+        public static bool BridgeFound { get => bridgeFound; }
+        #endregion
     }
 }
 

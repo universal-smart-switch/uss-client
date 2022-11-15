@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO.Ports;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO.Ports;
 
 namespace ussclientsandbox.Model
 {
@@ -36,5 +31,6 @@ namespace ussclientsandbox.Model
 
         // network communication
         public const int TCPPort = 5000;
+        public const string BridgeHostName = "DESKTOP-RDA6I2A";
     }
 }

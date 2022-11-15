@@ -1,7 +1,4 @@
-﻿using System;
-using System.Net.Sockets;
-using System.Net;
-using uss_client_sandbox.Model;
+﻿using uss_client_sandbox.Model;
 using ussclientsandbox.Model;
 
 namespace ussclientsandbox
@@ -27,7 +24,6 @@ namespace ussclientsandbox
 
 
             var source = new CancellationTokenSource();
-            NetworkManager.ServerName = "localhost";
             NetworkManager.Connect(source);
 
             NetworkManager.Send(echoReq.FullMessage.ToArray());
@@ -44,7 +40,7 @@ namespace ussclientsandbox
                 }
             }
 
-            
+
 
             Thread.Sleep(1000 * 60 * 5);    // 5min
             source.Cancel();

@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Reflection.PortableExecutable;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using ussclientsandbox;
+﻿using System.Xml;
 
 namespace ussclientsandbox.Model
 {
@@ -61,7 +51,7 @@ namespace ussclientsandbox.Model
 
                 _invalid = true;
             }
-            
+
         }
 
         public string ToXAML()
@@ -93,12 +83,12 @@ namespace ussclientsandbox.Model
                 xmlTextWriter.WriteEndElement();
 
                 return stringWriter.ToString();
-            } 
+            }
         }
 
         public string Name { get => _name; set => _name = value; }
         public bool Invert { get => _invert; set => _invert = value; }
-        public bool ExecuteMet { get => _executeMet;}
+        public bool ExecuteMet { get => _executeMet; }
         public bool OnSingle { get => _onSingle; set => _onSingle = value; }
         internal List<Characteristic> CharacteristicsToMet { get => _characteristicsToMet; set => _characteristicsToMet = value; }
     }

@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace ussclientsandbox.Model
 {
-/// <summary>
-/// message between bridge and client
-/// </summary>
+    /// <summary>
+    /// message between bridge and client
+    /// </summary>
     internal class BCMessage
     {
         private byte[] _mark;
@@ -72,7 +67,7 @@ namespace ussclientsandbox.Model
             {
                 _fullMessage.Add(item);
             }
-            
+
         }
 
         // create from received message
@@ -118,7 +113,7 @@ namespace ussclientsandbox.Model
             _data = new byte[_fullMessage.Count()];
             _fullMessage.Reverse();
             _fullMessage.CopyTo(_data);
-            
+
 
             // readd bytes
             _fullMessage.Clear();
@@ -134,7 +129,7 @@ namespace ussclientsandbox.Model
         #region methods
         private byte CalcCheckSum(byte[] data)
         {
-            
+
             int fullVal = 0;
 
             for (int i = 0; i < (data.Length - 2); i++)
@@ -234,7 +229,7 @@ namespace ussclientsandbox.Model
                     break;
             }
         }
-        private bool ValidateCheckSum(byte[] _messageNoHeader,byte checkSumUntested)
+        private bool ValidateCheckSum(byte[] _messageNoHeader, byte checkSumUntested)
         {
             int checkSumCalculated = CalcCheckSum(_messageNoHeader);
             if (checkSumUntested == checkSumCalculated)
@@ -246,7 +241,7 @@ namespace ussclientsandbox.Model
         #endregion
 
         #region fields
-        public List<byte> FullMessage { get => _fullMessage;}
+        public List<byte> FullMessage { get => _fullMessage; }
 
         public string DataString
         {
