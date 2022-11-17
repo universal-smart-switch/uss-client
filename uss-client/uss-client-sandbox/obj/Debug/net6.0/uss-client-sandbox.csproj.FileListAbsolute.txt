@@ -24,3 +24,6 @@ C:\Users\Tim\Documents\repo\uss-client\uss-client\uss-client-sandbox\obj\Debug\n
 C:\Users\Tim\Documents\repo\uss-client\uss-client\uss-client-sandbox\obj\Debug\net6.0\uss-client-sandbox.pdb
 C:\Users\Tim\Documents\repo\uss-client\uss-client\uss-client-sandbox\obj\Debug\net6.0\uss-client-sandbox.genruntimeconfig.cache
 C:\Users\Tim\Documents\repo\uss-client\uss-client\uss-client-sandbox\obj\Debug\net6.0\ref\uss-client-sandbox.dll
+C:\Users\Tim\Documents\repo\uss-client\uss-client\uss-client-sandbox\bin\Debug\net6.0\SuperSimpleTcp.dll
+C:\Users\Tim\Documents\repo\uss-client\uss-client\uss-client-sandbox\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\Tim\Documents\repo\uss-client\uss-client\uss-client-sandbox\bin\Debug\net6.0\WatsonTcp.dll

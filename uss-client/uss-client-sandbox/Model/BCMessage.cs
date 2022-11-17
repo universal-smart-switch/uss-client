@@ -1,13 +1,15 @@
-﻿using System.Text;
+﻿using System.Security.Permissions;
+using System.Text;
 
 namespace ussclientsandbox.Model
 {
     /// <summary>
     /// message between bridge and client
     /// </summary>
-    internal class BCMessage
+    public class BCMessage
     {
-        private byte[] _mark;
+        private byte[] _markStart;
+        private byte[] _markEnd;
         private byte _checkSum;
         private byte _id;
         private byte[] _data;
@@ -29,7 +31,16 @@ namespace ussclientsandbox.Model
             _command = command;
             _data = GetBytesFromString(data);
             _id = Convert.ToByte(id);
-            _commandRaw = GetByteFromBCCommand(_command);
+            _commandRaw = GetByteFromBCCommand(_command);   // also sets date for ping
+
+
+            // add end.mark bytes
+            _markEnd = GetBytesFromString(DefinedInformation.BCMarkEnd);
+            foreach (var item in _markEnd)
+            {
+                _messageNoHeader.Add(item);
+            }
+
 
             foreach (var item in _data)
             {
@@ -62,8 +73,8 @@ namespace ussclientsandbox.Model
             }
 
             // add mark bytes
-            _mark = GetBytesFromString(DefinedInformation.BCMark);
-            foreach (var item in _mark)
+            _markStart = GetBytesFromString(DefinedInformation.BCMarkStart);
+            foreach (var item in _markStart)
             {
                 _fullMessage.Add(item);
             }
@@ -84,7 +95,7 @@ namespace ussclientsandbox.Model
             _fullMessage.Reverse();
 
             // save mark + remove
-            _mark = new byte[] { _fullMessage[0], _fullMessage[1] };    // save mark
+            _markStart = new byte[] { _fullMessage[0], _fullMessage[1] };    // save mark
             _fullMessage.Remove(_fullMessage[0]);  // remove mark 
             _fullMessage.Remove(_fullMessage[0]);
 
@@ -109,11 +120,31 @@ namespace ussclientsandbox.Model
             _commandRaw = _fullMessage[0];
             _fullMessage.Remove(_fullMessage[0]);  // remove command
 
+            // remove enmark
+            _fullMessage.Reverse();
+            _fullMessage.Remove(_fullMessage[0]);
+            _fullMessage.Remove(_fullMessage[0]);
+            _fullMessage.Remove(_fullMessage[0]);
+            _fullMessage.Reverse();
+
+
             // save data + remove
             _data = new byte[_fullMessage.Count()];
             _fullMessage.Reverse();
             _fullMessage.CopyTo(_data);
 
+            string receivedTest = Encoding.UTF8.GetString(_data.ToArray());
+            
+
+            if (receivedTest.Contains("\0\08$C"))
+            {
+                string input = receivedTest;
+                int index = input.IndexOf("\"");
+                if (index >= 0)
+                    input = input.Substring(0, index);
+
+                int test = 2;
+            }
 
             // readd bytes
             _fullMessage.Clear();
@@ -122,6 +153,13 @@ namespace ussclientsandbox.Model
             //validation
             checkSumCorrect = ValidateCheckSum(tempNoHeader, _checkSum);
             _command = GetBCCommandFromByte(_commandRaw);
+
+            string testData = this.DataString;
+
+            if (!checkSumCorrect)
+            {
+                _command = BCCommand.Invalid;
+            }
 
         }
         #endregion
@@ -151,42 +189,28 @@ namespace ussclientsandbox.Model
         }
 
         // create message
-        private byte GetByteFromBCCommand(BCCommand type)
+        private byte GetByteFromBCCommand(BCCommand type)   // also sets date for ping!
         {
             byte typeRaw;
 
             switch (type)
             {
+                case BCCommand.Invalid:
+                    return DefinedInformation.BCCInvalid;
+                case BCCommand.EchoReq:
+                    return DefinedInformation.BCCEchoReq;
+                case BCCommand.EchorRep:
+                    return DefinedInformation.BCCEchorRep;
                 case BCCommand.GetSwitches:
-                    typeRaw = DefinedInformation.BCCGetSwitches;
-                    break;
-                case BCCommand.GetModeSwitches:
-                    typeRaw = DefinedInformation.BCCGetModeSwitches;
-                    break;
-                case BCCommand.GetStateSwitch:
-                    typeRaw = DefinedInformation.BCCGetStateSwitch;
-                    break;
-                case BCCommand.SendSwitches:
-                    typeRaw = DefinedInformation.BCCSendSwitches;
-                    break;
-                case BCCommand.SendModeSwitches:
-                    typeRaw = DefinedInformation.BCCSendModeSwitches;
-                    break;
-                case BCCommand.EchoRequest:
-                    typeRaw = DefinedInformation.BCCEchoRequest;
-                    break;
-                case BCCommand.SendStateSwitch:
-                    typeRaw = DefinedInformation.BCCSendStateSwitch;
-                    break;
-                case BCCommand.SetModeSwitch:
-                    typeRaw = DefinedInformation.BCCSetModeSwitch;
-                    break;
+                    return DefinedInformation.BCCGetSwitches;
+                case BCCommand.GetModes:
+                    return DefinedInformation.BCCGetModes;
+                case BCCommand.GetSysInfo:
+                    return DefinedInformation.BCCGetSysInfo;
                 default:
-                    typeRaw = 0b000;
-                    break;
-            }
+                    return DefinedInformation.BCCInvalid;
 
-            return typeRaw;
+            }
         }
         private byte[] GetBytesFromString(string data)
         {
@@ -198,36 +222,30 @@ namespace ussclientsandbox.Model
         {
             switch (type)
             {
-                case DefinedInformation.BCCGetSwitches:
-                    //return MessageType.Humidity;
-                    return BCCommand.GetSwitches;
+                case DefinedInformation.BCCEchoReq:
+                    return BCCommand.EchoReq;
                     break;
-                case DefinedInformation.BCCGetModeSwitches:
-                    //return BCCommand.Temperature;
-                    return BCCommand.GetModeSwitches;
+                case DefinedInformation.BCCEchorRep:
+                    return BCCommand.EchorRep;
                     break;
-                case DefinedInformation.BCCGetStateSwitch:
-                    //return BCCommand.O3;
-                    return BCCommand.GetStateSwitch;
+                case DefinedInformation.BCCGetSwitchesRep:
+                    return BCCommand.GetSwitchesRep;
                     break;
-                case DefinedInformation.BCCSendSwitches:
-                    //return BCCommand.Fan;
-                    return BCCommand.SendSwitches;
+                case DefinedInformation.BCCGetModesRep:
+                    return BCCommand.GetModesRep;
                     break;
-                case DefinedInformation.BCCSendModeSwitches:
-                    //return BCCommand.Engine;
-                    return BCCommand.SendModeSwitches;
+                case DefinedInformation.BCCGetSysInfoRep:
+                    return BCCommand.GetSysInfoRep;
                     break;
-                case DefinedInformation.BCCEchoRequest:
-                    return BCCommand.EchoRequest;
-                    break;
-                case DefinedInformation.BCCSendStateSwitch:
-                    return BCCommand.SendStateSwitch;
-                    break;
-                default:
+                case DefinedInformation.BCCInvalid:
                     return BCCommand.Invalid;
                     break;
+                default:
+                    return BCCommand.EchoReq;
+                    break;
+
             }
+
         }
         private bool ValidateCheckSum(byte[] _messageNoHeader, byte checkSumUntested)
         {
@@ -258,20 +276,21 @@ namespace ussclientsandbox.Model
                 return BitConverter.ToInt32(_fullMessage.ToArray(), 0);
             }
         }
+
+        public BCCommand Command { get => _command; set => _command = value; }
         #endregion
     }
 
     public enum BCCommand
     {
         Invalid,
+        EchoReq,
+        EchorRep,
         GetSwitches,
-        GetModeSwitches,
-        GetStateSwitch,
-        SendSwitches,
-        SendModeSwitches,
-        SendStateSwitch,
-        EchoRequest,
-        EchoResponse,
-        SetModeSwitch,
+        GetSwitchesRep,
+        GetModes,
+        GetModesRep,
+        GetSysInfo,
+        GetSysInfoRep
     }
 }
