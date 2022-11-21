@@ -208,6 +208,8 @@ namespace ussclientsandbox.Model
                     return DefinedInformation.BCCGetSwitchesRep;
                 case BCCommand.GetModes:
                     return DefinedInformation.BCCGetModes;
+                case BCCommand.GetModesRep:
+                    return DefinedInformation.BCCGetModesRep;
                 case BCCommand.GetSysInfo:
                     return DefinedInformation.BCCGetSysInfo;
                 default:

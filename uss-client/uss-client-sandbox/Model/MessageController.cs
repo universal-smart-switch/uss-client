@@ -46,6 +46,7 @@ namespace uss_client_sandbox.Model
 
                 case BCCommand.GetModesRep:
                     LocalBridge.ModeList.FromXML(message.DataString);
+                    Console.WriteLine("[Bridge:] (ModeList) " + LocalBridge.ModeList.Count);
                     break;
                 case BCCommand.GetSysInfo:
                     break;

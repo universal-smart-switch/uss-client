@@ -57,8 +57,21 @@ namespace ussclientsandbox
             Console.WriteLine(LocalBridge.ModeList.ToXML());
 
             var mdR = new BCMessage(BCCommand.GetModes, "0", 0);
-            NetworkManager.Send(mdR);
+            //NetworkManager.Send(mdR);
             //NetworkManager.Send(echoReq);
+
+
+            var md = new Mode("einModus", new Characteristic(CharacteristicType.Temperature, 13, false));
+            md.OnSingle = true;
+            var md1 = new Mode("zweiterModus", new Characteristic(CharacteristicType.Date, 33, false));
+
+            LocalBridge.ModeList.Add(md);
+            LocalBridge.ModeList.Add(md1);
+
+            var mdl = new BCMessage(BCCommand.GetModesRep, LocalBridge.ModeList.ToXML(), 0);
+
+            NetworkManager.Send(mdl);
+
             ThreadPool.QueueUserWorkItem(new WaitCallback(SendThread), source.Token);
 
             
