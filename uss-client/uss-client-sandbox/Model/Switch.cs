@@ -14,11 +14,17 @@ namespace uss_client_sandbox.Model
     {
         #region property
         private bool stateOn = false;
+        private bool manualOverwrite = false;
         private DateTime lastContacted;
         private string name;
         private string address;
         private string mode;
         #endregion
+
+        public Switch()
+        {
+            lastContacted = DateTime.Now;
+        }
 
         #region field
         public bool StateOn { get => stateOn; set => stateOn = value; }
@@ -34,6 +40,8 @@ namespace uss_client_sandbox.Model
             }
 
         }
+
+        public bool ManualOverwrite { get => manualOverwrite; set => manualOverwrite = value; }
         #endregion
     }
 
@@ -60,6 +68,9 @@ namespace uss_client_sandbox.Model
                     sw.Address = childrenNode.Attributes["address"].Value;
                     sw.Mode = childrenNode.Attributes["mode"].Value;
                     bool stateOn = bool.Parse(childrenNode.Attributes["stateOn"].Value);
+                    bool manualOver = bool.Parse(childrenNode.Attributes["manualOverwrite"].Value);
+                    sw.StateOn = stateOn;
+                    sw.ManualOverwrite = manualOver;
                     this.Add(sw);
                 }
                 _valid = true;
@@ -69,7 +80,6 @@ namespace uss_client_sandbox.Model
                 _valid = false;
             }
         }
-
         public string ToXML()
         {
             using (var stringWriter = new StringWriter())
@@ -88,6 +98,7 @@ namespace uss_client_sandbox.Model
                     xmlTextWriter.WriteAttributeString("stateOn", item.StateOn.ToString());
                     xmlTextWriter.WriteAttributeString("lastContacted", item.LastContactedUnix);
                     xmlTextWriter.WriteAttributeString("mode", item.Mode);
+                    xmlTextWriter.WriteAttributeString("manualOverwrite", item.ManualOverwrite.ToString());
                     xmlTextWriter.WriteEndElement();
                 }
 

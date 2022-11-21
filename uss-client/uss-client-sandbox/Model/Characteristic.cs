@@ -1,6 +1,6 @@
 ﻿namespace ussclientsandbox.Model
 {
-    internal class Characteristic
+    public class Characteristic
     {
         private bool _met;
         private bool _invert;
@@ -14,7 +14,7 @@
             _invert = invert;
         }
 
-        public bool Met { get => _met; }
+        public bool Met { get => _met; set => _met = value; }
         public bool Invert { get => _invert; set => _invert = value; }
         public CharacteristicType Type { get => _type; set => _type = value; }
         public int Value { get => _value; set => _value = value; }

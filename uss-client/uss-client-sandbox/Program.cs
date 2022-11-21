@@ -27,10 +27,34 @@ namespace ussclientsandbox
 
             var reEcho = new BCMessage(echoReq.FullMessage.ToArray());
 
-            var getSw = new BCMessage(BCCommand.GetSwitches, "0", 0);
+            //var getSw = new BCMessage(BCCommand.GetSwitches, "0", 0);
 
             var source = new CancellationTokenSource();
             NetworkManager.Connect(source);
+
+            /*
+            var ch1 = new Characteristic(CharacteristicType.Temperature, 22, false);
+            var ch2 = new Characteristic(CharacteristicType.Temperature, 21, true);
+            var testMode = new Mode("mode1");
+            var testMode2 = new Mode("secondMode");
+            testMode.CharacteristicsToMet.Add(ch2);
+            testMode.CharacteristicsToMet.Add(ch1);
+            testMode2.CharacteristicsToMet.Add(ch1);
+            LocalBridge.ModeList.Add(testMode);
+            LocalBridge.ModeList.Add(testMode2);
+
+            string xml = LocalBridge.ModeList.ToXML();
+            LocalBridge.ModeList.FromXML(xml);*/
+
+            SwitchList swiTest = new SwitchList();
+            var sw = new Switch();
+            sw.Address = "addr";
+            sw.Name = "switchy";
+            swiTest.Add(sw);
+            var swLR = new BCMessage(BCCommand.GetSwitchesRep, swiTest.ToXML(), 0);
+            NetworkManager.Send(swLR);
+
+            Console.WriteLine(LocalBridge.ModeList.ToXML());
 
             NetworkManager.Send(echoReq);
             ThreadPool.QueueUserWorkItem(new WaitCallback(SendThread), source.Token);
@@ -48,11 +72,11 @@ namespace ussclientsandbox
             var token = (CancellationToken)obj;   // get cancellationtoken
 
             var getSw = new BCMessage(BCCommand.GetSwitches, "0", 0);
-            var echoReq = new BCMessage(BCCommand.EchoReq, "0", 0);
+           // var echoReq = new BCMessage(BCCommand.EchoReq, "0", 0);
 
             while (!token.IsCancellationRequested)
             {
-                NetworkManager.Send(echoReq);
+                //NetworkManager.Send(echoReq);
                 Thread.Sleep(3000);
                 NetworkManager.Send(getSw);
                 Thread.Sleep(4000);

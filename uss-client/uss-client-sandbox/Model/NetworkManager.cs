@@ -167,8 +167,12 @@ namespace uss_client_sandbox.Model
                         if (!(recMes.Command == BCCommand.Invalid))
                         {
                             lastMessageReceived = recMes;
-
                             dataToRead = true;
+                        }
+                        
+                        if (    (int)recMes.Command == DefinedInformation.BCCGetSwitchesRep)
+                        {
+                            string test = ";";
                         }
 
                     }
@@ -229,6 +233,11 @@ namespace uss_client_sandbox.Model
                         lastMessageReceived = test;
                         MessageController.ReceiveController(test);
                         dataToRead = true;
+                    }
+
+                    if((int)test.Command == DefinedInformation.BCCGetSwitchesRep)
+                    {
+                        string hello = "test";
                     }
 
                 }

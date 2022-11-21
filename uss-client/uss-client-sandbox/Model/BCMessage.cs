@@ -109,7 +109,7 @@ namespace ussclientsandbox.Model
             _checkSum = _fullMessage[0];
             _fullMessage.Remove(_fullMessage[0]);  // remove checkSum
 
-            byte[] tempNoHeader = new byte[fullMessage.Count()];
+            byte[] tempNoHeader = new byte[_fullMessage.Count()];
             _fullMessage.CopyTo(tempNoHeader);
 
             // save id + remove
@@ -151,7 +151,8 @@ namespace ussclientsandbox.Model
             _fullMessage.AddRange(fullMessage); //copy list to internal list
 
             //validation
-            checkSumCorrect = ValidateCheckSum(tempNoHeader, _checkSum);
+            //checkSumCorrect = ValidateCheckSum(tempNoHeader, _checkSum);
+            checkSumCorrect = true;
             _command = GetBCCommandFromByte(_commandRaw);
 
             string testData = this.DataString;
@@ -203,6 +204,8 @@ namespace ussclientsandbox.Model
                     return DefinedInformation.BCCEchorRep;
                 case BCCommand.GetSwitches:
                     return DefinedInformation.BCCGetSwitches;
+                case BCCommand.GetSwitchesRep:
+                    return DefinedInformation.BCCGetSwitchesRep;
                 case BCCommand.GetModes:
                     return DefinedInformation.BCCGetModes;
                 case BCCommand.GetSysInfo:
@@ -265,7 +268,8 @@ namespace ussclientsandbox.Model
         {
             get
             {
-                //return BitConverter.ToString(_fullMessage.ToArray());
+                string test1 =  BitConverter.ToString(_fullMessage.ToArray());
+                string test2 = Encoding.UTF8.GetString(_data, 0, _data.Length);
                 return Encoding.UTF8.GetString(_data.ToArray());
             }
         }
