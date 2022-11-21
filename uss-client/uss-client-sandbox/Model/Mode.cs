@@ -121,7 +121,6 @@ namespace ussclientsandbox.Model
                     xmlTextWriter.WriteAttributeString("executeMet", item.ExecuteMet.ToString());
                     xmlTextWriter.WriteAttributeString("onSingle", item.OnSingle.ToString());
 
-                    xmlTextWriter.WriteStartElement("characteristics");
                     foreach (var cha in item.CharacteristicsToMet)
                     {
                         xmlTextWriter.WriteStartElement("characteristic");
@@ -131,7 +130,6 @@ namespace ussclientsandbox.Model
                         xmlTextWriter.WriteAttributeString("met", cha.Met.ToString());
                         xmlTextWriter.WriteEndElement();    // end charac
                     }
-                    xmlTextWriter.WriteEndElement();    // end characteristics
 
                     xmlTextWriter.WriteEndElement();    // end mode
                 }
@@ -163,7 +161,7 @@ namespace ussclientsandbox.Model
                     md.ExecuteMet = bool.Parse(childrenNode.Attributes["executeMet"].Value);
                     md.OnSingle = bool.Parse(childrenNode.Attributes["onSingle"].Value);
 
-                    string chrPath = "modeList/mode/characteristics/characteristic";
+                    string chrPath = "modeList/mode/characteristic";
                     var chrNodes = xmlDoc.SelectNodes(chrPath);
 
                     foreach (XmlNode chrNode in chrNodes)

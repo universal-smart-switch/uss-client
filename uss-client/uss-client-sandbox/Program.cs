@@ -52,11 +52,13 @@ namespace ussclientsandbox
             sw.Name = "switchy";
             swiTest.Add(sw);
             var swLR = new BCMessage(BCCommand.GetSwitchesRep, swiTest.ToXML(), 0);
-            NetworkManager.Send(swLR);
+            //NetworkManager.Send(swLR);
 
             Console.WriteLine(LocalBridge.ModeList.ToXML());
 
-            NetworkManager.Send(echoReq);
+            var mdR = new BCMessage(BCCommand.GetModes, "0", 0);
+            NetworkManager.Send(mdR);
+            //NetworkManager.Send(echoReq);
             ThreadPool.QueueUserWorkItem(new WaitCallback(SendThread), source.Token);
 
             

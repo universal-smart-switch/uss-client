@@ -45,6 +45,7 @@ namespace uss_client_sandbox.Model
 
 
                 case BCCommand.GetModesRep:
+                    LocalBridge.ModeList.FromXML(message.DataString);
                     break;
                 case BCCommand.GetSysInfo:
                     break;
