@@ -1,6 +1,6 @@
 ﻿using System.IO.Ports;
 
-namespace ussclientsandbox.Model
+namespace ussclientsandbox.Models
 {
     static class DefinedInformation
     {

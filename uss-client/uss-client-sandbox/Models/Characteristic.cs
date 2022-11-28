@@ -1,4 +1,4 @@
-﻿namespace ussclientsandbox.Model
+﻿namespace ussclientsandbox.Models
 {
     public class Characteristic
     {

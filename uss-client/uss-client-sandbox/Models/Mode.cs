@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml;
 
-namespace ussclientsandbox.Model
+namespace ussclientsandbox.Models
 {
     public class Mode
     {

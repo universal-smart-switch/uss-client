@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ussclientsandbox.Model;
+using ussclientsandbox.Models;
 
-namespace uss_client_sandbox.Model
+namespace uss_client_sandbox.Models
 {
     public static  class LocalBridge
     {

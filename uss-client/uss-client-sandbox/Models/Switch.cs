@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml;
-using ussclientsandbox.Model;
+using ussclientsandbox.Models;
 using System.Linq.Expressions;
 
-namespace uss_client_sandbox.Model
+namespace uss_client_sandbox.Models
 {
     public class Switch
     {

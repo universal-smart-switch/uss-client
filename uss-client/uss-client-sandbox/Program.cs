@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
-using uss_client_sandbox.Model;
-using ussclientsandbox.Model;
+using uss_client_sandbox.Models;
+using ussclientsandbox.Models;
 
 namespace ussclientsandbox
 {

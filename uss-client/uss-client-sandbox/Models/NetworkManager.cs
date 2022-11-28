@@ -3,10 +3,10 @@ using System.Net;
 using System.Net.Sockets;
 using System.Numerics;
 using System.Text;
-using ussclientsandbox.Model;
+using ussclientsandbox.Models;
 
 
-namespace uss_client_sandbox.Model
+namespace uss_client_sandbox.Models
 {
     public static class NetworkManager
     {
@@ -25,7 +25,7 @@ namespace uss_client_sandbox.Model
         private static int port = DefinedInformation.TCPPort;
         private static DateTime lastEchoRequest;
         private static Dictionary<DateTime, TimeSpan> pingHistory = new Dictionary<DateTime, TimeSpan>();
-
+        private static bool connectionError = false;
 
         #endregion
 
@@ -55,7 +55,7 @@ namespace uss_client_sandbox.Model
         }
         */
 
-        
+
         public static void Connect(CancellationTokenSource ct)
         {
             Search();
@@ -74,9 +74,11 @@ namespace uss_client_sandbox.Model
 
                     // let's go!
                     simpleClient.Connect();
+                    connectionError = false;
                 }
                 catch (Exception e)
                 {
+                    connectionError = true;
                     Console.WriteLine("[NM]: Client could not connect: " + e.Message);
                 }
                 
@@ -281,6 +283,7 @@ namespace uss_client_sandbox.Model
         public static string IpAdress { get => bridgeAdress.ToString(); }
         public static DateTime LastEchoRequest { get => lastEchoRequest; set => lastEchoRequest = value; }
         public static Dictionary<DateTime, TimeSpan> PingHistory { get => pingHistory; set => pingHistory = value; }
+        public static bool ConnectionError { get => connectionError; set => connectionError = value; }
         #endregion
     }
 }

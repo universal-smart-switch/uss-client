@@ -2,7 +2,7 @@
 using HashtagChris.DotNetBlueZ.Extensions;
 using System.IO.Ports;
 
-namespace ussclientsandbox.Model
+namespace ussclientsandbox.Models
 {
     /// <summary>
     /// Intern B2 communication standart
