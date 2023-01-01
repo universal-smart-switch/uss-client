@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Text;
 using ussclientsandbox.Models;
 
@@ -26,6 +27,7 @@ namespace uss_client_sandbox.Models
         private static DateTime lastEchoRequest;
         private static Dictionary<DateTime, TimeSpan> pingHistory = new Dictionary<DateTime, TimeSpan>();
         private static bool connectionError = false;
+        private static CancellationTokenSource _canToken = new CancellationTokenSource();
 
         #endregion
 
@@ -54,9 +56,19 @@ namespace uss_client_sandbox.Models
             }
         }
         */
+        public static void ConnectFirstTime()
+        {
+            Connect();
 
+            if (!ConnectionError)
+            {
+                //NetworkManager.Send(new BCMessage(BCCommand.GetSwitches, "null", 0));
+                //Task.Delay(10000);
+                //NetworkManager.Send(new BCMessage(BCCommand.GetModes, "null", 0));
+            }
+        }
 
-        public static void Connect(CancellationTokenSource ct)
+        public static void Connect()
         {
             Search();
 
@@ -75,6 +87,9 @@ namespace uss_client_sandbox.Models
                     // let's go!
                     simpleClient.Connect();
                     connectionError = false;
+
+                    // try getting switch list 
+                    NetworkManager.Send(new BCMessage(BCCommand.GetSwitches, "null", 0));
                 }
                 catch (Exception e)
                 {
@@ -95,11 +110,9 @@ namespace uss_client_sandbox.Models
             toSend.AddRange(message.FullMessage.ToArray());
             dataToSend = true;
             lastMessageSent = message;*/
-
             
             simpleClient.Send(message.FullMessage.ToArray());
             Console.WriteLine("[Client sent]:" + message.DataString);
-
         }
 
         public static void Search()
@@ -118,7 +131,7 @@ namespace uss_client_sandbox.Models
         }
         #endregion
 
-        #region thread
+        #region async
         public static void NetworkThread(Object obj)
         {
             CancellationToken token = (CancellationToken)obj;   // get cancellationtoken
@@ -195,20 +208,8 @@ namespace uss_client_sandbox.Models
             }
 
         }
-        #endregion
 
-        #region events
-        static void Connected(object sender, ConnectionEventArgs e)
-        {
-            Console.WriteLine($"[Bridge {e.IpPort}]: connected");
-        }
-
-        static void Disconnected(object sender, ConnectionEventArgs e)
-        {
-            Console.WriteLine($"[Bridge {e.IpPort}]: disconnected");
-        }
-
-        static void DataReceived(object sender, DataReceivedEventArgs e)
+        public static async Task ReceiveDataAsync(DataReceivedEventArgs e)
         {
             //Console.WriteLine($"[{e.IpPort}] {Encoding.UTF8.GetString(e.Data.Array, 0, e.Data.Count)}");
 
@@ -230,14 +231,14 @@ namespace uss_client_sandbox.Models
 
                     BCMessage test = new BCMessage(tempData1.ToArray());
 
-                    if(!(test.Command == BCCommand.Invalid))
+                    if (!(test.Command == BCCommand.Invalid))
                     {
                         lastMessageReceived = test;
                         MessageController.ReceiveController(test);
                         dataToRead = true;
                     }
 
-                    if((int)test.Command == DefinedInformation.BCCGetSwitchesRep)
+                    if ((int)test.Command == DefinedInformation.BCCGetSwitchesRep)
                     {
                         string hello = "test";
                     }
@@ -258,6 +259,23 @@ namespace uss_client_sandbox.Models
                 }
             }
             */
+        }
+        #endregion
+
+        #region events
+        static void Connected(object sender, ConnectionEventArgs e)
+        {
+            Console.WriteLine($"[Bridge {e.IpPort}]: connected");
+        }
+
+        static void Disconnected(object sender, ConnectionEventArgs e)
+        {
+            Console.WriteLine($"[Bridge {e.IpPort}]: disconnected");
+        }
+
+        static void DataReceived(object sender, DataReceivedEventArgs e)
+        {
+            ReceiveDataAsync(e);
         }
 
 
@@ -284,6 +302,7 @@ namespace uss_client_sandbox.Models
         public static DateTime LastEchoRequest { get => lastEchoRequest; set => lastEchoRequest = value; }
         public static Dictionary<DateTime, TimeSpan> PingHistory { get => pingHistory; set => pingHistory = value; }
         public static bool ConnectionError { get => connectionError; set => connectionError = value; }
+        public static CancellationTokenSource CanToken { get => _canToken; set => _canToken = value; }
         #endregion
     }
 }

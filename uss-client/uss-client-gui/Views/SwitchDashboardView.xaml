@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="uss_client_gui.Views.SwitchDashboardView"
+             Title="SwitchDashboardView">
+    <ScrollView>
+        <Grid Margin="5">
+
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
+
+            <ListView ItemsSource="{Binding AvailableSwitches}" 
+                      SelectedItem="{Binding SelectedSwitch}"
+                      Grid.ColumnSpan="2"
+                      x:Name="switchListView">
+                
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label FontAttributes="Bold" Text="Name:" Grid.Row="0" Grid.Column="0"/>
+                                <Label Text="{Binding Name}" Grid.Row="1" Grid.Column="0"/>
+
+                                <Label FontAttributes="Bold"  Text="ID:" Grid.Row="0" Grid.Column="1"/>
+                                <Label Text="{Binding Address}" Grid.Row="1" Grid.Column="1"/>
+
+                                <Label FontAttributes="Bold"  Text="Mode:" Grid.Row="0" Grid.Column="2"/>
+                                <Picker ItemsSource="{Binding PossibleModes}" Grid.Row="1" Grid.Column="2"
+                                        ItemDisplayBinding="{Binding Name}"
+                                        SelectedItem="{Binding VirtMode}"/>
+
+                                <Switch Grid.RowSpan="2" Grid.Column="3" IsToggled="{Binding StateOn}" Toggled="Switch_Toggled"/>
+
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            
+            <Button Grid.Row="1" Margin="10" FontSize="25"  Text="Save Settings" Command="{Binding TrySendSwitchesCommand}"/>
+        </Grid>
+
+        
+    </ScrollView>
+</ContentPage>

@@ -30,7 +30,7 @@ namespace ussclientsandbox
             //var getSw = new BCMessage(BCCommand.GetSwitches, "0", 0);
 
             var source = new CancellationTokenSource();
-            NetworkManager.Connect(source);
+            NetworkManager.Connect();
 
             /*
             var ch1 = new Characteristic(CharacteristicType.Temperature, 22, false);

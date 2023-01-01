@@ -102,7 +102,19 @@ namespace ussclientsandbox.Models
     public class ModeList : List<Mode>
     {
         private bool _valid;
-        
+
+
+        public List<string> GetStringList()
+        {
+            List<string> strList = new List<string>();
+            foreach (var item in this)
+            {
+                strList.Add(item.Name);
+            }
+            return strList;
+        }
+
+
         public string ToXML()
         {
             using (var stringWriter = new StringWriter())
@@ -185,6 +197,8 @@ namespace ussclientsandbox.Models
                 _valid = false;
             }
         }
+
+
 
         
     }

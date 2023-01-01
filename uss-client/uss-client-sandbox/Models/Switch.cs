@@ -19,6 +19,7 @@ namespace uss_client_sandbox.Models
         private string name;
         private string address;
         private string mode;
+        private Mode virtMode;
         #endregion
 
         public Switch()
@@ -32,6 +33,15 @@ namespace uss_client_sandbox.Models
         public string Name { get => name; set => name = value; }
         public string Address { get => address; set => address = value; }
         public string Mode { get => mode; set => mode = value; }
+        public Mode VirtMode 
+        { 
+            get => virtMode;
+            set
+            {
+                virtMode = value;
+                Mode = value.Name;
+            }
+        }
         public string LastContactedUnix
         {
             get
@@ -40,6 +50,8 @@ namespace uss_client_sandbox.Models
             }
 
         }
+
+        public ModeList PossibleModes { get => LocalBridge.ModeList; }
 
         public bool ManualOverwrite { get => manualOverwrite; set => manualOverwrite = value; }
         #endregion

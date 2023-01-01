@@ -212,6 +212,8 @@ namespace ussclientsandbox.Models
                     return DefinedInformation.BCCGetModesRep;
                 case BCCommand.GetSysInfo:
                     return DefinedInformation.BCCGetSysInfo;
+                case BCCommand.SetSwitchState:
+                    return DefinedInformation.BCCSetSwitchState;
                 default:
                     return DefinedInformation.BCCInvalid;
 
@@ -297,6 +299,7 @@ namespace ussclientsandbox.Models
         GetModes,
         GetModesRep,
         GetSysInfo,
-        GetSysInfoRep
+        GetSysInfoRep,
+        SetSwitchState
     }
 }

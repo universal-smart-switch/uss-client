@@ -18,6 +18,7 @@ namespace ussclientsandbox.Models
         public const int BCCGetModesRep = 7;
         public const int BCCGetSysInfo = 8;
         public const int BCCGetSysInfoRep = 9;
+        public const int BCCSetSwitchState = 10;
 
 
         /*public const int BCCGetSwitches = 2;

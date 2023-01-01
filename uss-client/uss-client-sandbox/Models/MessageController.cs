@@ -47,6 +47,15 @@ namespace uss_client_sandbox.Models
                 case BCCommand.GetModesRep:
                     LocalBridge.ModeList.FromXML(message.DataString);
                     Console.WriteLine("[Bridge:] (ModeList) " + LocalBridge.ModeList.Count);
+
+                    foreach (var item in LocalBridge.SwitchList)
+                    {
+                        foreach (var mode in LocalBridge.ModeList)
+                        {
+                            if (item.Mode == mode.Name) { item.VirtMode = mode; break; }
+                        }
+                    }
+
                     break;
                 case BCCommand.GetSysInfo:
                     break;
