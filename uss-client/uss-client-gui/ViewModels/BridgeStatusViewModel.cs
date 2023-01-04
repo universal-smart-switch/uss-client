@@ -47,7 +47,7 @@ namespace uss_client_gui.ViewModels
             }
         }
         #endregion
-
+            
 
         #region properties
         public bool NoConnectionVisible { get => NetworkManager.ConnectionError;}

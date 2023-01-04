@@ -28,6 +28,12 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<AssemblyName>$(MSBuildProjectName)</AssemblyName>
+		<Company>Tim J. Kicker</Company>
+		<Authors>Tim J. Kicker</Authors>
+		<Title>Universal Smart Switch App</Title>
+		<Copyright>C TIm J. Kicker</Copyright>
+		<PackageIcon>icons8-switch-96.png</PackageIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -53,13 +59,20 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Include="..\..\..\..\..\Downloads\icons8-switch-96.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
 	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\uss-client-sandbox\uss-client-sandbox.csproj" />
 	</ItemGroup>
-
+	
 	<ItemGroup>
 	  <MauiXaml Update="Views\ModesDashboardView.xaml">
 	    <Generator>MSBuild:Compile</Generator>

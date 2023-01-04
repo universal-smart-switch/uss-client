@@ -96,7 +96,7 @@ namespace ussclientsandbox.Models
         public bool Invert { get => _invert; set => _invert = value; }
         public bool ExecuteMet { get => _executeMet; set => _executeMet = value; }
         public bool OnSingle { get => _onSingle; set => _onSingle = value; }
-        internal List<Characteristic> CharacteristicsToMet { get => _characteristicsToMet; set => _characteristicsToMet = value; }
+        public List<Characteristic> CharacteristicsToMet { get => _characteristicsToMet; set => _characteristicsToMet = value; }
     }
 
     public class ModeList : List<Mode>

@@ -1,14 +1,29 @@
-﻿using uss_client_sandbox.Models;
+﻿using System.ComponentModel;
+using System.Net.Sockets;
+using uss_client_sandbox.Models;
 using ussclientsandbox.Models;
 
 namespace uss_client_gui
 {
-    public partial class App : Application
+    public partial class App : Application, INotifyPropertyChanged
     {
+        private bool _otherTabsVisible;
+
+        public bool OtherTabsVisible
+        {
+            get { return _otherTabsVisible; }
+            set 
+            { 
+                _otherTabsVisible = value; 
+                OnPropertyChanged(nameof(OtherTabsVisible));
+            }
+        }
+
         public App()
         {
             var token = new CancellationTokenSource();
             NetworkManager.ConnectFirstTime();
+            OtherTabsVisible = !NetworkManager.ConnectionError;
 
             /*
              
@@ -25,6 +40,16 @@ namespace uss_client_gui
             InitializeComponent();
             MainPage = new AppShell();
 
+
         }
+
+        #region event
+        public event PropertyChangedEventHandler PropertyChangedManual;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedManual?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        #endregion
+
     }
 }

@@ -21,6 +21,8 @@ namespace uss_client_gui.ViewModels
             NetworkManager.Send(new BCMessage(BCCommand.GetModes, "null", 0));
             Thread.Sleep(1000);
             _selectedSwitch = LocalBridge.SwitchList[0];
+
+            Title = "Devices Overview";
         }
 
         public void TrySetSwitchState()

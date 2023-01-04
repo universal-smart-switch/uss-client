@@ -12,9 +12,13 @@
         <ShellContent Title="Bridges"
                      ContentTemplate="{DataTemplate local:MainPage}" />
         <ShellContent Title="Switches"
-                     ContentTemplate="{DataTemplate views:SwitchDashboardView}"/>
+                     ContentTemplate="{DataTemplate views:SwitchDashboardView}"
+                      IsEnabled="{Binding OtherTabsVisible}"
+                      IsVisible="{Binding OtherTabsBisible}"/>
         <ShellContent Title="Modes"
-                     ContentTemplate="{DataTemplate views:ModesDashboardView}"/>
+                     ContentTemplate="{DataTemplate views:ModesDashboardView}"
+                      IsEnabled="{Binding OtherTabsVisible}"
+                      IsVisible="{Binding OtherTabsBisible}"/>
     </TabBar>
 
     <!--

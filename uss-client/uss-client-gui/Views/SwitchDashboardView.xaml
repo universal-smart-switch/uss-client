@@ -2,20 +2,22 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="uss_client_gui.Views.SwitchDashboardView"
-             Title="SwitchDashboardView">
-    <ScrollView>
-        <Grid Margin="5">
+             Title="{Binding Title}">
 
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition Height="100"/>
-            </Grid.RowDefinitions>
+    <Grid Margin="5">
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+
+        <ScrollView Grid.ColumnSpan="2">
 
             <ListView ItemsSource="{Binding AvailableSwitches}" 
                       SelectedItem="{Binding SelectedSwitch}"
                       Grid.ColumnSpan="2"
                       x:Name="switchListView">
-                
+
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -26,7 +28,7 @@
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="0.5*" />
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
@@ -42,17 +44,19 @@
                                         ItemDisplayBinding="{Binding Name}"
                                         SelectedItem="{Binding VirtMode}"/>
 
-                                <Switch Grid.RowSpan="2" Grid.Column="3" IsToggled="{Binding StateOn}" Toggled="Switch_Toggled"/>
+                                <Switch Grid.RowSpan="2" Grid.Column="3" 
+                                        IsToggled="{Binding StateOn}" 
+                                        Toggled="Switch_Toggled"
+                                        Margin="0,0,-50,0"/>
 
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            
-            <Button Grid.Row="1" Margin="10" FontSize="25"  Text="Save Settings" Command="{Binding TrySendSwitchesCommand}"/>
-        </Grid>
 
+        </ScrollView>
         
-    </ScrollView>
+        <Button Grid.Row="1" Margin="10" FontSize="25"  Text="Save Settings" Command="{Binding TrySendSwitchesCommand}"/>
+    </Grid>
 </ContentPage>
