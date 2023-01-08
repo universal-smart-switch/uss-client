@@ -44,7 +44,7 @@ namespace ussclientsandbox.Models
 
         // network communication
         public const int TCPPort = 5000;
-        public const string BridgeHostName = "DESKTOP-RDA6I2A";
+        public const string BridgeHostName = "uiw-bridge";
 
 
         public static long DateTimeToUnix(DateTime dateTime)

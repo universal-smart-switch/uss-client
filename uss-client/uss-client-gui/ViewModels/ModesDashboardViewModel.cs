@@ -1,10 +1,12 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using uss_client_sandbox.Models;
 using ussclientsandbox.Models;
 
@@ -25,7 +27,7 @@ namespace uss_client_gui.ViewModels
             SelectedCharacteristic = SelectedMode.CharacteristicsToMet[0];
 
             Title = "Mode Management";
-            OnPropertyChanged("DisplayableType");
+            base.OnPropertyChanged("DisplayableType");
 
         }
 
@@ -73,14 +75,16 @@ namespace uss_client_gui.ViewModels
 
                 var chr = new Characteristic(CharacteristicType.Blank, 0, false);
                 this.CharacteristicsToMet.Add(chr);
-                OnPropertyChangedManual(nameof(CharacteristicsToMet));
-                OnPropertyChangedManual(nameof(RemoveCharacteristicbuttonVisible));
+                
 
             }
             catch (Exception) { }
             finally
             {
                 IsBusy = false;
+                OnPropertyChanged(nameof(CharacteristicsToMet));
+                OnPropertyChanged(nameof(RemoveCharacteristicbuttonVisible));
+                updateUI = true;
             }
         }
 
@@ -97,14 +101,15 @@ namespace uss_client_gui.ViewModels
                     this.CharacteristicsToMet.Remove(SelectedCharacteristic);
 
 
-                OnPropertyChangedManual(nameof(CharacteristicsToMet));
-                OnPropertyChangedManual(nameof(RemoveCharacteristicbuttonVisible));
+                
 
             }
             catch (Exception) { }
             finally
             {
                 IsBusy = false;
+                OnPropertyChanged(nameof(CharacteristicsToMet));
+                OnPropertyChanged(nameof(RemoveCharacteristicbuttonVisible));
             }
         }
 
@@ -118,12 +123,13 @@ namespace uss_client_gui.ViewModels
                 IsBusy = true;
                 this.PossibleModes.Add(new Mode((CharacteristicsToMet.Count + 1).ToString() + "mode"));
 
-                OnPropertyChangedManual(nameof(PossibleModes));
             }
             catch (Exception) { }
             finally
             {
                 IsBusy = false;
+
+                OnPropertyChanged(nameof(PossibleModes));
             }
         }
 
@@ -145,10 +151,10 @@ namespace uss_client_gui.ViewModels
                     
 
 
-                OnPropertyChangedManual(nameof(PossibleModes));
-                OnPropertyChangedManual(nameof(SelectedMode));
-                OnPropertyChangedManual(nameof(CharacteristicsToMet));
-                OnPropertyChangedManual(nameof(SelectedCharacteristic));
+                OnPropertyChanged(nameof(PossibleModes));
+                OnPropertyChanged(nameof(SelectedMode));
+                OnPropertyChanged(nameof(CharacteristicsToMet));
+                OnPropertyChanged(nameof(SelectedCharacteristic));
 
             }
             catch (Exception) { }
@@ -166,7 +172,7 @@ namespace uss_client_gui.ViewModels
             set 
             {
                 LocalBridge.ModeList = value;
-                OnPropertyChangedManual(nameof(PossibleModes));
+                OnPropertyChanged(nameof(PossibleModes));
             } 
 
         }
@@ -176,7 +182,7 @@ namespace uss_client_gui.ViewModels
             set
             {
                 _selectedMode = value;
-                OnPropertyChangedManual(nameof(SelectedMode));
+                OnPropertyChanged(nameof(SelectedMode));
             }
         }
         public List<Characteristic> CharacteristicsToMet
@@ -185,7 +191,7 @@ namespace uss_client_gui.ViewModels
             set
             {
                 SelectedMode.CharacteristicsToMet = value;
-                OnPropertyChangedManual(nameof(CharacteristicsToMet));
+                OnPropertyChanged(nameof(CharacteristicsToMet));
             }
         }
 
@@ -195,7 +201,7 @@ namespace uss_client_gui.ViewModels
             set
             {
                 _selectedCharacteristic = value;
-                OnPropertyChangedManual(nameof(SelectedCharacteristic));
+                OnPropertyChanged(nameof(SelectedCharacteristic));
             } 
         }
 
@@ -207,14 +213,28 @@ namespace uss_client_gui.ViewModels
                 else return false;
             }
         }
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(RemoveCharacteristicbuttonVisible))]
+        [NotifyPropertyChangedFor(nameof(SelectedCharacteristic))]
+        [NotifyPropertyChangedFor(nameof(CharacteristicsToMet))]
+        [NotifyPropertyChangedFor(nameof(SelectedMode))]
+        [NotifyPropertyChangedFor(nameof(PossibleModes))]
+        private bool updateUI;
         #endregion
 
         #region event
-        public event PropertyChangedEventHandler PropertyChangedManual;
-        protected void OnPropertyChangedManual(string propertyName)
+        /*public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
         {
-            PropertyChangedManual?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+            var tempHandler = PropertyChanged; //für den unwahrscheinlichen - aber möglichen Fall, dass der
+                                               //Eventhandler genau jetzt entfernt wird, wird der Funktionszeiger
+                                               //behalten, damit nicht ein ungültiger Codebereich aufgerufen wird
+
+            if (PropertyChanged != null) //Abfrage: Wurde dieses Ereignis abonniert bzw. beim Eventhandler hinterlegt?
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+
+        }*/
         public bool CheckBoxOnSingle { get => SelectedMode.OnSingle; set => SelectedMode.OnSingle = value; }
         #endregion
     }

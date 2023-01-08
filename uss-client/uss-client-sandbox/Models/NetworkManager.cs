@@ -76,7 +76,7 @@ namespace uss_client_sandbox.Models
             {
                 try
                 {
-                    simpleClient = new SimpleTcpClient("127.0.0.1:" + port);
+                    simpleClient = new SimpleTcpClient(bridgeAdress + ":" + port);
 
                     // set events
 

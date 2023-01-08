@@ -84,6 +84,7 @@ namespace uss_client_gui.ViewModels
             finally
             {
                 IsBusy = false;
+                
             }
         }
         #endregion
