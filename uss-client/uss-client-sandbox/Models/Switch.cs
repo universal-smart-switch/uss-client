@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using System.Xml;
 using ussclientsandbox.Models;
 using System.Linq.Expressions;
+using System.Windows.Input;
 
 namespace uss_client_sandbox.Models
 {
@@ -51,9 +52,20 @@ namespace uss_client_sandbox.Models
 
         }
 
+        public ICommand SetStateCommand { get; set; }
+
         public ModeList PossibleModes { get => LocalBridge.ModeList; }
 
         public bool ManualOverwrite { get => manualOverwrite; set => manualOverwrite = value; }
+
+        public string displayState
+        {
+            get
+            {
+                if (StateOn) { return "ON"; }
+                else return "OFF";
+            }
+        }
         #endregion
     }
 

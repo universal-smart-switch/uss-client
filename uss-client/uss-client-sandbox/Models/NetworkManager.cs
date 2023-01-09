@@ -1,4 +1,5 @@
 ﻿using SuperSimpleTcp;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Numerics;
@@ -26,7 +27,7 @@ namespace uss_client_sandbox.Models
         private static int port = DefinedInformation.TCPPort;
         private static DateTime lastEchoRequest;
         private static Dictionary<DateTime, TimeSpan> pingHistory = new Dictionary<DateTime, TimeSpan>();
-        private static bool connectionError = false;
+        private static bool connectionError = true;
         private static CancellationTokenSource _canToken = new CancellationTokenSource();
 
         #endregion
@@ -76,7 +77,12 @@ namespace uss_client_sandbox.Models
             {
                 try
                 {
-                    simpleClient = new SimpleTcpClient(bridgeAdress + ":" + port);
+                    if (DefinedInformation.LocalDebugMode)
+                    {
+                        simpleClient = new SimpleTcpClient("127.0.0.1:" + port);
+                    }
+                    else { simpleClient = new SimpleTcpClient(bridgeAdress + ":" + port); }
+                    
 
                     // set events
 
@@ -89,7 +95,7 @@ namespace uss_client_sandbox.Models
                     connectionError = false;
 
                     // try getting switch list 
-                    NetworkManager.Send(new BCMessage(BCCommand.GetSwitches, "null", 0));
+                    //NetworkManager.Send(new BCMessage(BCCommand.GetSwitches, "null", 0));
                 }
                 catch (Exception e)
                 {
@@ -113,14 +119,19 @@ namespace uss_client_sandbox.Models
             
             simpleClient.Send(message.FullMessage.ToArray());
             Console.WriteLine("[Client sent]:" + message.DataString);
+            Debug.WriteLine("[Client sent]: " + " (" + message.Command.ToString()+ ") " + message.DataString);
         }
 
         public static void Search()
         {
             try
             {
-                IPAddress[] addresslist = Dns.GetHostAddresses(DefinedInformation.BridgeHostName);
-                bridgeAdress = new IPAddress(addresslist[0].GetAddressBytes());
+                if (!DefinedInformation.LocalDebugMode)
+                {
+                    IPAddress[] addresslist = Dns.GetHostAddresses(DefinedInformation.BridgeHostName);
+                    bridgeAdress = new IPAddress(addresslist[0].GetAddressBytes());
+                }
+                else { bridgeAdress = new IPAddress(0); }
                 bridgeFound = true;
             }
             catch (Exception e)
@@ -209,7 +220,7 @@ namespace uss_client_sandbox.Models
 
         }
 
-        public static async Task ReceiveDataAsync(DataReceivedEventArgs e)
+        public static async Task ReceiveDataAsync(SuperSimpleTcp.DataReceivedEventArgs e)
         {
             //Console.WriteLine($"[{e.IpPort}] {Encoding.UTF8.GetString(e.Data.Array, 0, e.Data.Count)}");
 
@@ -273,7 +284,7 @@ namespace uss_client_sandbox.Models
             Console.WriteLine($"[Bridge {e.IpPort}]: disconnected");
         }
 
-        static void DataReceived(object sender, DataReceivedEventArgs e)
+        static void DataReceived(object sender, SuperSimpleTcp.DataReceivedEventArgs e)
         {
             ReceiveDataAsync(e);
         }

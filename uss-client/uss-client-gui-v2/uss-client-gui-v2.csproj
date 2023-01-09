@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <RootNamespace>uss_client_gui_v2</RootNamespace>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="Themes\Themes.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HandyControls" Version="3.4.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\uss-client-sandbox\uss-client-sandbox.csproj" />
+  </ItemGroup>
+
+</Project>

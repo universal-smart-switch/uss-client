@@ -33,8 +33,8 @@ namespace uss_client_gui.ViewModels
 
                 if (!NetworkManager.ConnectionError)
                 {
-                    NetworkManager.Send(new BCMessage(BCCommand.GetSwitches, "null", 0));
-                    NetworkManager.Send(new BCMessage(BCCommand.GetModes, "null", 0));
+                    //NetworkManager.Send(new BCMessage(BCCommand.GetSwitches, "null", 0));
+                    //NetworkManager.Send(new BCMessage(BCCommand.GetModes, "null", 0));
                 }
 
             }

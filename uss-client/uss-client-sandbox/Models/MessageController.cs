@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,8 @@ namespace uss_client_sandbox.Models
         public static void ReceiveController(BCMessage message)
         {
             //Console.WriteLine("[Bridge]: " + message.DataString);
+
+            Debug.WriteLine("[Bridge sent]: " + " (" + message.Command.ToString() + ") " + message.DataString);
 
             switch (message.Command)
             {

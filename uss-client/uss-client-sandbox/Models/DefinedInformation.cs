@@ -4,6 +4,10 @@ namespace ussclientsandbox.Models
 {
     static class DefinedInformation
     {
+        //
+        public const bool LocalDebugMode = true;
+
+
         // Bridge/Client messages
         public const string BCMarkStart = "$C";
         public const string BCMarkEnd = "$CE";
