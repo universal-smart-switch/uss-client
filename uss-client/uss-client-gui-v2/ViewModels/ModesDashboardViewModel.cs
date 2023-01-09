@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -22,13 +23,16 @@ namespace uss_client_gui_v2.ViewModels
         public ModesDashboardViewModel()
         {
             this.TryAddCharacteristicCommand = new TryAddCharacteristicCommand(this);
+            this.TrySendModesCommand = new SendModesCommand();
+            this.TryAddModeCommand = new AddModeCommand(this);
+            this.TryRemoveModeCommand = new RemoveModeCommand(this);
 
-
-            while(PossibleModes.Count == 0)
+            while (PossibleModes.Count == 0)
             {
                 // try getting switch list 
                 //NetworkManager.Send(new BCMessage(BCCommand.GetModes, "null", 0));
                 //Thread.Sleep(2000);
+                
             }
 
             SelectedMode = PossibleModes[0];
@@ -44,11 +48,16 @@ namespace uss_client_gui_v2.ViewModels
             OnPropertyChanged(nameof(PossibleModes));
             OnPropertyChanged(nameof(SelectedCharacteristic));
             OnPropertyChanged(nameof(RemoveCharacteristicbuttonVisible));
+            OnPropertyChanged(nameof(RemoveModeButtonVisible));
+            OnPropertyChanged(nameof(ModeCharacteristics));
         }
         #endregion
 
         #region commands
         public ICommand TryAddCharacteristicCommand { get; set; }
+        public ICommand TrySendModesCommand { get; set; }
+        public ICommand TryAddModeCommand { get; set; }
+        public ICommand TryRemoveModeCommand { get; set; }
         #endregion
 
         #region properties
@@ -87,7 +96,18 @@ namespace uss_client_gui_v2.ViewModels
    
             }
         }
-        public List<Mode> PossibleModes { get { return LocalBridge.ModeList; } }
+        public bool RemoveModeButtonVisible
+        {
+            get
+            {
+                if ((SelectedMode != null) && !SelectedMode.Name.Contains("Default"))
+                {
+                    return true;
+                }
+                else return false;
+            }
+        }
+        public ObservableCollection<Mode> PossibleModes { get { return LocalBridge.ModeList; } }
 
         public Mode SelectedMode 
         { 
@@ -109,6 +129,8 @@ namespace uss_client_gui_v2.ViewModels
                 UpdateEntireUI();
             } 
         }
+
+        public ObservableCollection<Characteristic> ModeCharacteristics { get => SelectedMode.CharacteristicsToMet; }
         #endregion
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Net.NetworkInformation;
+﻿using System.Collections.ObjectModel;
+using System.Net.NetworkInformation;
 using uss_client_sandbox.Models;
 
 namespace ussclientsandbox.Models
@@ -20,7 +21,7 @@ namespace ussclientsandbox.Models
         public bool Met { get => _met; set => _met = value; }
         public bool Invert { get => _invert; set => _invert = value; }
         public CharacteristicType Type { get => _type; set => _type = value; }
-        public List<string> PossibleCharacteristics { get => LocalBridge.PossibleCharacteristics; }
+        public ObservableCollection<string> PossibleCharacteristics { get => LocalBridge.PossibleCharacteristics; }
         public int Value { get => _value; set => _value = value; }
 
         public string DisplayableType

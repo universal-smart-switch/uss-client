@@ -8,6 +8,7 @@ using System.Xml;
 using ussclientsandbox.Models;
 using System.Linq.Expressions;
 using System.Windows.Input;
+using System.Collections.ObjectModel;
 
 namespace uss_client_sandbox.Models
 {
@@ -66,10 +67,11 @@ namespace uss_client_sandbox.Models
                 else return "OFF";
             }
         }
+        
         #endregion
     }
 
-    public class SwitchList : List<Switch>
+    public class SwitchList : ObservableCollection<Switch>
     {
         private bool _valid = true;
 

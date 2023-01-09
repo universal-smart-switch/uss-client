@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Xml;
 
 namespace ussclientsandbox.Models
@@ -6,7 +7,7 @@ namespace ussclientsandbox.Models
     public class Mode
     {
         private string _name;
-        private List<Characteristic> _characteristicsToMet;
+        private ObservableCollection<Characteristic> _characteristicsToMet;
         private bool _invert;
         private bool _executeMet;
         private bool _onSingle;
@@ -15,14 +16,14 @@ namespace ussclientsandbox.Models
         public Mode(string name, Characteristic firstCharacteristic)
         {
             _name = name;
-            _characteristicsToMet = new List<Characteristic>();
+            _characteristicsToMet = new ObservableCollection<Characteristic>();
             _characteristicsToMet.Add(firstCharacteristic);
         }
 
         public Mode(string name)
         {
             _name = name;
-            _characteristicsToMet = new List<Characteristic>();
+            _characteristicsToMet = new ObservableCollection<Characteristic>();
         }
         /*
         public Mode(string xaml)
@@ -96,10 +97,10 @@ namespace ussclientsandbox.Models
         public bool Invert { get => _invert; set => _invert = value; }
         public bool ExecuteMet { get => _executeMet; set => _executeMet = value; }
         public bool OnSingle { get => _onSingle; set => _onSingle = value; }
-        public List<Characteristic> CharacteristicsToMet { get => _characteristicsToMet; set => _characteristicsToMet = value; }
+        public ObservableCollection<Characteristic> CharacteristicsToMet { get => _characteristicsToMet; set => _characteristicsToMet = value; }
     }
 
-    public class ModeList : List<Mode>
+    public class ModeList : ObservableCollection<Mode>
     {
         private bool _valid;
 

@@ -43,7 +43,7 @@
                                VerticalAlignment="Center"/>
 
                                 <ComboBox ItemsSource="{Binding PossibleModes}" 
-                                          SelectedItem="{Binding SelectedMode}"
+                                          SelectedItem="{Binding VirtMode}"
                                           x:Name="pckrMode" 
                                           Margin="5"
                                           Grid.Column="3"

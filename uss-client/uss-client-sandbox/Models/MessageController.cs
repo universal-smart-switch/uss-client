@@ -43,6 +43,7 @@ namespace uss_client_sandbox.Models
                 case BCCommand.GetSwitchesRep:
                     LocalBridge.SwitchList.FromXML(message.DataString);
                     Console.WriteLine("[Brige:] (SwichtList) " + LocalBridge.SwitchList.Count);
+                    LocalBridge.LinkSwitchModes();
                     break;
                 #endregion
 
@@ -51,13 +52,7 @@ namespace uss_client_sandbox.Models
                     LocalBridge.ModeList.FromXML(message.DataString);
                     Console.WriteLine("[Bridge:] (ModeList) " + LocalBridge.ModeList.Count);
 
-                    foreach (var item in LocalBridge.SwitchList)
-                    {
-                        foreach (var mode in LocalBridge.ModeList)
-                        {
-                            if (item.Mode == mode.Name) { item.VirtMode = mode; break; }
-                        }
-                    }
+                    LocalBridge.LinkSwitchModes();
 
                     break;
                 case BCCommand.GetSysInfo:

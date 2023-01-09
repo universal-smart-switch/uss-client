@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -185,7 +186,7 @@ namespace uss_client_gui.ViewModels
                 OnPropertyChanged(nameof(SelectedMode));
             }
         }
-        public List<Characteristic> CharacteristicsToMet
+        public ObservableCollection<Characteristic> CharacteristicsToMet
         {
             get => SelectedMode.CharacteristicsToMet; 
             set
