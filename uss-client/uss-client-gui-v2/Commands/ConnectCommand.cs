@@ -21,14 +21,14 @@ namespace uss_client_gui_v2.Commands
         public override void Execute(object parameter)
         {
             NetworkManager.Connect();
-            try
+
+            if (!NetworkManager.ConnectionError)
             {
                 // try getting modes list 
                 NetworkManager.Send(new BCMessage(BCCommand.GetModes, "null", 0));
                 Thread.Sleep(2000);
                 NetworkManager.Send(new BCMessage(BCCommand.GetSwitches, "null", 0));
             }
-            catch (Exception) {   }
             vm.UpdateEntireUI();
         }
     }

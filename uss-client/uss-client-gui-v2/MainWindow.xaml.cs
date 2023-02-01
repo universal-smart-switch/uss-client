@@ -27,6 +27,7 @@ namespace uss_client_gui_v2
         public MainWindow()
         {
             InitializeComponent();
+            
         }
 
         public NavigateToCommand NavigateToBridge = new NavigateToCommand(new BridgeStatusViewModel());
@@ -47,5 +48,7 @@ namespace uss_client_gui_v2
         {
             NavigateToModes.Execute(this);
         }
+
+        public bool NavigateButtonsEnabled { get => !NetworkManager.ConnectionError; }
     }
 }

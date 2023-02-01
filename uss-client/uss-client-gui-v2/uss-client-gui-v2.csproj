@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\bridge.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Themes\Themes.csproj" />
   </ItemGroup>
 
@@ -18,6 +22,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\uss-client-sandbox\uss-client-sandbox.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\bridge.png" />
   </ItemGroup>
 
 </Project>

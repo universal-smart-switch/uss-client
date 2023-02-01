@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using ussclientsandbox.Models;
 
 
@@ -81,7 +82,7 @@ namespace uss_client_sandbox.Models
                     {
                         simpleClient = new SimpleTcpClient("127.0.0.1:" + port);
                     }
-                    else { simpleClient = new SimpleTcpClient(bridgeAdress + ":" + port); }
+                    else { simpleClient = new SimpleTcpClient(bridgeAdress.ToString() + ":" + port); }
                     
 
                     // set events
@@ -122,6 +123,40 @@ namespace uss_client_sandbox.Models
             Debug.WriteLine("[Client sent]: " + " (" + message.Command.ToString()+ ") " + message.DataString);
         }
 
+        public static bool CheckIfIPv4(string IpAddress)
+        {
+            try
+            {
+                Regex regex = new Regex(@"((^\s*((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))\s*$)|(^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$))");
+                bool flag = false;
+                string IPv = string.Empty;
+                if (!string.IsNullOrEmpty(IpAddress))
+                {
+                    if (IpAddress.Count(c => c == '.') == 3)
+                    {
+                        flag = regex.IsMatch(IpAddress);
+                        IPv = "IPv4";
+                    }
+                    else
+                    {
+                        IPv = "Version of";
+                        flag = false;
+                    }
+                }
+
+                if (flag)
+                {
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine("{0} is not a valid {1} IP address", IpAddress, IPv);
+                    return false;
+                }
+            }
+            catch (Exception) { return false; }
+        }
+
         public static void Search()
         {
             try
@@ -130,6 +165,16 @@ namespace uss_client_sandbox.Models
                 {
                     IPAddress[] addresslist = Dns.GetHostAddresses(DefinedInformation.BridgeHostName);
                     bridgeAdress = new IPAddress(addresslist[0].GetAddressBytes());
+                    
+
+                    foreach (var item in addresslist)
+                    {
+                        if (CheckIfIPv4(item.ToString()))
+                        {
+                            bridgeAdress = new IPAddress(item.GetAddressBytes());
+                            break;
+                        }
+                    }
                 }
                 else { bridgeAdress = new IPAddress(0); }
                 bridgeFound = true;

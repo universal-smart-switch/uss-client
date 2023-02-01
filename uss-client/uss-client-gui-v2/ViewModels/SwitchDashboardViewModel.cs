@@ -46,7 +46,7 @@ namespace uss_client_gui_v2.ViewModels
             {
                 foreach (var item in LocalBridge.SwitchList)
                 {
-                    item.SetStateCommand = new SetSwitchStateCommand(item);
+                    item.SetStateCommand = new SetSwitchStateCommand(item,this);
                 }
             }
         }
@@ -70,7 +70,7 @@ namespace uss_client_gui_v2.ViewModels
                 {
                     foreach (var item in LocalBridge.SwitchList)
                     {
-                        item.SetStateCommand = new SetSwitchStateCommand(item);
+                        item.SetStateCommand = new SetSwitchStateCommand(item,this);
                     }
                 }
                 return LocalBridge.SwitchList;

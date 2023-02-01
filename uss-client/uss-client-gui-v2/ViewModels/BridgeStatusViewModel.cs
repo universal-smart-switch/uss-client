@@ -11,7 +11,6 @@ namespace uss_client_gui_v2.ViewModels
 {
     public class BridgeStatusViewModel : BaseViewModel
     {
-
         public BridgeStatusViewModel()
         {
             this.ConnectCommand = new ConnectCommand(this);

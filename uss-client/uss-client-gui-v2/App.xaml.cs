@@ -8,6 +8,7 @@ using System.Windows;
 using uss_client_gui_v2.Stores;
 using uss_client_gui_v2.ViewModels;
 using uss_client_gui_v2.ViewModels.Commands;
+using uss_client_sandbox.Models;
 
 namespace uss_client_gui_v2
 {
@@ -28,6 +29,8 @@ namespace uss_client_gui_v2
             var nVM = new BridgeStatusViewModel();
             NavigationStore.CurrentViewModel = nVM;
             nVM.ConnectCommand.Execute(nVM);
+
+            LocalBridge.CalcPossibleCharacteristics();
 
 
 

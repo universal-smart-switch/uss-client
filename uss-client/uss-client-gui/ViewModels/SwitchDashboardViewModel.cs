@@ -20,7 +20,11 @@ namespace uss_client_gui.ViewModels
             //Thread.Sleep(1000);
             NetworkManager.Send(new BCMessage(BCCommand.GetModes, "null", 0));
             Thread.Sleep(1000);
+
+            LocalBridge.SwitchList.Add(new uss_client_sandbox.Models.Switch());
             _selectedSwitch = LocalBridge.SwitchList[0];
+            _selectedSwitch.Name = "YellowSwitchy";
+            _selectedSwitch.Address = "2313";
 
             Title = "Devices Overview";
         }

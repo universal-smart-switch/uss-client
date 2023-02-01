@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -26,22 +27,30 @@ namespace uss_client_gui_v2.ViewModels
             this.TrySendModesCommand = new SendModesCommand();
             this.TryAddModeCommand = new AddModeCommand(this);
             this.TryRemoveModeCommand = new RemoveModeCommand(this);
+            this.TryRemoveCharacteristicCommand = new TryRemoveCharacteristicCommand(this);
 
-            while (PossibleModes.Count == 0)
+
+            Thread.Sleep(2000);
+
+            /*while (PossibleModes.Count == 0)
             {
                 // try getting switch list 
                 //NetworkManager.Send(new BCMessage(BCCommand.GetModes, "null", 0));
                 //Thread.Sleep(2000);
                 
-            }
+            }*/
 
-            SelectedMode = PossibleModes[0];
+            if (PossibleModes.Count > 0) { SelectedMode = PossibleModes[0]; }
+            
         }
         #endregion
 
         #region methods
         public override void UpdateEntireUI()
         {
+            if (SelectedMode == null) { SelectedMode = PossibleModes[0]; }
+
+
             OnPropertyChanged(nameof(SelectedMode));
             OnPropertyChanged(nameof(CheckBoxOnSingle));
             OnPropertyChanged(nameof(CheckBoxTurnOff));
@@ -50,12 +59,14 @@ namespace uss_client_gui_v2.ViewModels
             OnPropertyChanged(nameof(RemoveCharacteristicbuttonVisible));
             OnPropertyChanged(nameof(RemoveModeButtonVisible));
             OnPropertyChanged(nameof(ModeCharacteristics));
+
         }
         #endregion
 
         #region commands
         public ICommand TryAddCharacteristicCommand { get; set; }
         public ICommand TrySendModesCommand { get; set; }
+        public ICommand TryRemoveCharacteristicCommand { get; set; }
         public ICommand TryAddModeCommand { get; set; }
         public ICommand TryRemoveModeCommand { get; set; }
         #endregion
@@ -75,7 +86,7 @@ namespace uss_client_gui_v2.ViewModels
         {
             get
             {
-                if ((SelectedMode != null) && SelectedMode.Invert != null) { return SelectedMode.Invert; }
+                if (    (SelectedMode != null) &&SelectedMode.Invert != null) { return SelectedMode.Invert; }
                 else return false;
             }
             set => SelectedMode.Invert = value;
@@ -84,7 +95,7 @@ namespace uss_client_gui_v2.ViewModels
         {
             get
             {
-                if ((SelectedMode != null) && SelectedMode.CharacteristicsToMet != null)
+                if (    (SelectedMode != null) && (SelectedMode.CharacteristicsToMet != null) && (SelectedMode != LocalBridge.ModeList[0] ))
                 {
                     if (SelectedMode.CharacteristicsToMet.Count > 1)
                     {

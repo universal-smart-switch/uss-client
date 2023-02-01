@@ -21,7 +21,9 @@ namespace uss_client_gui_v2.Commands
         {
            if (vm.SelectedMode.CharacteristicsToMet.Count > 1)
            {
-                vm.SelectedMode.CharacteristicsToMet.Remove(vm.SelectedCharacteristic);  
+                var chrList = vm.SelectedMode.CharacteristicsToMet;
+
+                chrList.Remove(chrList[chrList.Count - 1]);
            }
             vm.UpdateEntireUI();
         }

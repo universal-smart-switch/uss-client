@@ -13,6 +13,10 @@
             <RowDefinition Height="0.25*"/>
         </Grid.RowDefinitions>
 
+        <Image Source="/Resources/bridge.png" 
+               Margin="30"
+               IsEnabled="{Binding IsConnected}"/>
+
         <Label Content="{Binding ConnectInfo}" 
                FontSize="20" 
                Grid.Row="1" 

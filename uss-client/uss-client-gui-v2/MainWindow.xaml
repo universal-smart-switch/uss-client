@@ -8,8 +8,14 @@
         xmlns:hc="https://handyorg.github.io/handycontrol"
         xmlns:viewmodels="clr-namespace:uss_client_gui_v2.ViewModels"
         xmlns:view="clr-namespace:uss_client_gui_v2.Views"
-        Title="MainWindow" Height="600" Width="600" 
+        Title="USS-Controller" Height="600" Width="600" 
         Style="{DynamicResource CustomWindowStyle}">
+
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="boolToVis" />
+    </Window.Resources>
+    
     <Grid xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity">
 
 

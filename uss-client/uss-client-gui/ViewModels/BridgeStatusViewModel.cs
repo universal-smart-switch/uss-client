@@ -20,6 +20,8 @@ namespace uss_client_gui.ViewModels
         }
         #endregion
 
+
+
         #region async
         [RelayCommand]
         async Task TryConnectAsync()

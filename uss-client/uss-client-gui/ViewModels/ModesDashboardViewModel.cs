@@ -22,7 +22,9 @@ namespace uss_client_gui.ViewModels
 
         public ModesDashboardViewModel()
         {
-            NetworkManager.Send(new BCMessage(BCCommand.GetModes, "null", 0));
+            if (!NetworkManager.ConnectionError)
+                NetworkManager.Send(new BCMessage(BCCommand.GetModes, "null", 0));
+            
             Thread.Sleep(1000);
             SelectedMode = LocalBridge.ModeList[0];
             SelectedCharacteristic = SelectedMode.CharacteristicsToMet[0];

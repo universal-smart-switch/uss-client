@@ -23,6 +23,7 @@ namespace uss_client_gui_v2.Commands
         public override void Execute(object parameter)
         {
             NavigationStore.CurrentViewModel = vm;
+            vm.UpdateEntireUI();
         }
     }
 }
