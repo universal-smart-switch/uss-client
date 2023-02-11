@@ -166,7 +166,6 @@ namespace uss_client_sandbox.Models
                     IPAddress[] addresslist = Dns.GetHostAddresses(DefinedInformation.BridgeHostName);
                     bridgeAdress = new IPAddress(addresslist[0].GetAddressBytes());
                     
-
                     foreach (var item in addresslist)
                     {
                         if (CheckIfIPv4(item.ToString()))

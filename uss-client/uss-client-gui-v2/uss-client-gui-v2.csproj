@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\bridge-unavailable.png" />
     <None Remove="Resources\bridge.png" />
   </ItemGroup>
 
@@ -25,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\bridge-unavailable.png" />
     <Resource Include="Resources\bridge.png" />
   </ItemGroup>
 

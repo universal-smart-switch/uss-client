@@ -5,7 +5,7 @@ namespace ussclientsandbox.Models
     static class DefinedInformation
     {
         //
-        public const bool LocalDebugMode = false;
+        public const bool LocalDebugMode = true;
 
 
         // Bridge/Client messages

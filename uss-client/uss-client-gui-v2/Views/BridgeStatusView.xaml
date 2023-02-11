@@ -15,8 +15,18 @@
 
         <Image Source="/Resources/bridge.png" 
                Margin="30"
-               IsEnabled="{Binding IsConnected}"/>
+               IsEnabled="{Binding IsConnected}"
+               Visibility="{Binding BridgeConnectedVisibility}"
+               HorizontalAlignment="Stretch"
+               VerticalAlignment="Stretch"/>
 
+        <Image Source="/Resources/bridge-unavailable.png" 
+               Margin="30"
+               IsEnabled="{Binding IsConnected}"
+               Visibility="{Binding BridgeDisconnectedVisibility}"
+               HorizontalAlignment="Stretch"
+               VerticalAlignment="Stretch"/>
+        
         <Label Content="{Binding ConnectInfo}" 
                FontSize="20" 
                Grid.Row="1" 
