@@ -16,5 +16,7 @@ namespace uss_client_gui.ViewModels
         [ObservableProperty]
         private string title;
         public bool IsNotBusy => !isBusy;
+
+
     }
 }

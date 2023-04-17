@@ -59,7 +59,8 @@
                 IsEnabled="{Binding NavigateButtonsEnabled}"/>
 
         <!-- Use the current viewmodel as content control-->
-        <ContentControl Content="{Binding CurrentViewModel}" Grid.Row="1" Grid.ColumnSpan="3"/>
+        <ContentControl Content="{Binding CurrentViewModel}" 
+                        Grid.Row="1" Grid.ColumnSpan="3"/>
 
     </Grid>
 </Window>

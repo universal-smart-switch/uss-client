@@ -61,7 +61,6 @@ namespace uss_client_sandbox.Models
         public static void ConnectFirstTime()
         {
             Connect();
-
             if (!ConnectionError)
             {
                 //NetworkManager.Send(new BCMessage(BCCommand.GetSwitches, "null", 0));

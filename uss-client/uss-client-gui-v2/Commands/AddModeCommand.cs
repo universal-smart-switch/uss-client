@@ -19,8 +19,9 @@ namespace uss_client_gui_v2.Commands
 
         public override void Execute(object parameter)
         {
+            // add mdoe
             LocalBridge.ModeList.Add(new ussclientsandbox.Models.Mode("Mode " + (LocalBridge.ModeList.Count + 1).ToString()));
-            vm.UpdateEntireUI();
+            vm.UpdateEntireUI();    // update ui of viewmodel
         }
     }
 }

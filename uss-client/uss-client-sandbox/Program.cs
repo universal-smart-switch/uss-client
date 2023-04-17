@@ -61,16 +61,19 @@ namespace ussclientsandbox
             //NetworkManager.Send(echoReq);
 
 
+            // Modes erstellen
             var md = new Mode("einModus", new Characteristic(CharacteristicType.Temperature, 13, false));
             md.OnSingle = true;
             var md1 = new Mode("zweiterModus", new Characteristic(CharacteristicType.Date, 33, false));
 
+            // Modes zur ModeList hinzufügen
             LocalBridge.ModeList.Add(md);
             LocalBridge.ModeList.Add(md1);
 
             var mdl = new BCMessage(BCCommand.GetModesRep, LocalBridge.ModeList.ToXML(), 0);
+                // Nachricht erstellen
 
-            NetworkManager.Send(mdl);
+            NetworkManager.Send(mdl);   // Modes senden
 
             ThreadPool.QueueUserWorkItem(new WaitCallback(SendThread), source.Token);
 
